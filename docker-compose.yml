@@ -1,0 +1,29 @@
+version: '3'
+services:
+    easy_kitchen:
+      build: 
+          context: .
+          dockerfile: Dockerfile
+      container_name: easy_kitchen
+      ports:
+          - "8085:80"
+      volumes:
+          - .:/var/www/
+          - ./server/apache2/sites-available/000-default.conf:/etc/apache2/sites-available/000-default.conf
+      environment:
+          - APPLICATION_ENV=development
+    easy_kitchen_database:
+      image: mysql
+      restart: always
+      container_name: easy_kitchen_database
+      ports:
+      - "3305:3306"
+      environment:
+        MYSQL_DATABASE: easy_kitchen_database
+        MYSQL_USER: root
+        MYSQL_ROOT_PASSWORD: 88099474
+    easy_kitchen_adminer:
+      image: adminer
+      restart: always
+      ports:
+        - 8070:8080
